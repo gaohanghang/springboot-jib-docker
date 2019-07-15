@@ -1,4 +1,6 @@
-# 使用 Google jib 快速构建镜像
+# 使用 Google jib 快速构建springboot项目镜像
+
+> google jib 是Google于18年7月发布的一个针对Java应用的构建镜像的工具(支持Maven和Gradle) ，好处是能够复用构建缓存，能够加快构建，减小传输体积（后文会详细讲解），并且让Java工程师不需要理解Docker相关知识就可以简单构建镜像并且发布到指定registry里（不需要docker build , tag, push）
 
 ## 运行效果
 
