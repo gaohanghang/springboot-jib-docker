@@ -1,0 +1,78 @@
+# 使用 Google jib 快速构建镜像
+
+## 运行效果
+
+```
+docker pull gaohanghang/springboot-jib-docker
+
+docker run -p 8080:8080 -t gaohanghang/springboot-jib-docker
+```
+
+![](https://raw.githubusercontent.com/gaohanghang/images/master/img20190715231430.png)
+
+## 快速开始
+
+1. dockerhub中创建Repository
+
+![](https://raw.githubusercontent.com/gaohanghang/images/master/img20190715231800.png)
+
+2. 创建springboot项目，添加HelloController.java
+
+```java
+@RestController
+public class HelloController {
+
+    @GetMapping("/")
+    public String hello() {
+        return "hello";
+    }
+}
+``` 
+
+3. pom.xml中添加jib plugin
+
+```
+<plugin>
+    <groupId>com.google.cloud.tools</groupId>
+    <artifactId>jib-maven-plugin</artifactId>
+    <version>1.3.0</version>
+    <configuration>
+        <from>
+            <!--base image-->
+            <image>openjdk:alpine</image>
+        </from>
+        <to>
+            <!--<image>registry.cn-hangzhou.aliyuncs.com/m65536/jibtest</image>-->
+            <!--目标镜像registry地址，为了方便测试，你需要换成自己的地址，如果你的网络不好，可以选用国内加速器，比如阿里云的-->
+            <image>registry.hub.docker.com/gaohanghang/springboot-jib-docker</image>
+        </to>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>build</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+
+4. 将`<image>registry.hub.docker.com/gaohanghang/springboot-jib-docker</image>`中的gaohanghang/springboot-jib-docker修改为你在dockerhub中创建的Repository
+
+
+5. 使用maven package打包项目，jib会自动构建镜像到dockerhub
+
+![](https://raw.githubusercontent.com/gaohanghang/images/master/img20190715232421.png)
+
+6. 拉取镜像并运行
+
+```
+docker pull gaohanghang/springboot-jib-docker
+
+docker run -p 8080:8080 -t gaohanghang/springboot-jib-docker
+```
+
+## 参考文章
+
+[谷歌开源 Java 镜像构建工具 Jib](https://www.infoq.cn/article/2018/07/google-opensource-Jib)
